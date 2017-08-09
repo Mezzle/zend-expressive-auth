@@ -27,7 +27,11 @@ class ConfigProvider
     {
         return [
             'factories' => [
-                \Stickee\Auth\Oauth\Keys::class => \Stickee\Auth\Oauth\Keys::class,
+                Authentication\Middleware::class => Authentication\MiddlewareFactory::class,
+                Authentication\Service::class => Authentication\ServiceFactory::class,
+                Oauth\Keys::class => Oauth\Keys::class,
+                Oauth\Provider::class => Oauth\Provider::class,
+                Oauth\RedirectAction::class => Oauth\RedirectActionFactory::class,
             ],
         ];
     }
