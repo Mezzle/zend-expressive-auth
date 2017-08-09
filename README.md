@@ -34,4 +34,3 @@ use \Stickee\Auth\Oauth\RedirectAction;
 
 $app->get('/login/redirect', RedirectAction::class, 'oauth-redirect');
 ```
-
