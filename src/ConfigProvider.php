@@ -33,6 +33,9 @@ class ConfigProvider
                 Oauth\Provider::class => Oauth\Provider::class,
                 Oauth\RedirectAction::class => Oauth\RedirectActionFactory::class,
             ],
+            'invokables' => [
+                Authentication\JWTProxy::class => Authentication\JWTProxy::class,
+            ],
         ];
     }
 }
