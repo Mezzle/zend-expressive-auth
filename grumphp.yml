@@ -74,5 +74,5 @@ parameters:
     phpstan: ~
     phpunit: ~
     phpversion:
-      project: '7.1'
+      project: '5.6'
     securitychecker: ~
