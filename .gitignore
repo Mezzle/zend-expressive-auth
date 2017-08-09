@@ -1,0 +1,16 @@
+.idea
+composer.phar
+
+clover.xml
+coveralls-upload.json
+vendor/
+
+sonar-project.properties
+.scannerwork
+
+config/.env
+.env
+
+
+data/*
+!data/.gitkeep
