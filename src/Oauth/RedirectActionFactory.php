@@ -9,8 +9,23 @@ use Interop\Container\ContainerInterface;
 use Stickee\Auth\Authentication\Service;
 use Zend\Expressive\Helper\UrlHelper;
 
+/**
+ * Class RedirectActionFactory
+ *
+ * @package Stickee\Auth\Oauth
+ */
 class RedirectActionFactory
 {
+    /**
+     * __invoke
+     *
+     * @param \Interop\Container\ContainerInterface $container
+     *
+     * @return \Stickee\Auth\Oauth\RedirectAction
+     *
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container)
     {
         /** @var Service $service */

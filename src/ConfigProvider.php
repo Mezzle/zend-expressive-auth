@@ -5,6 +5,11 @@
 
 namespace Stickee\Auth;
 
+/**
+ * Class ConfigProvider
+ *
+ * @package Stickee\Auth
+ */
 class ConfigProvider
 {
     /**
@@ -23,6 +28,11 @@ class ConfigProvider
         ];
     }
 
+    /**
+     * getDependencies
+     *
+     * @return array
+     */
     private function getDependencies()
     {
         return [

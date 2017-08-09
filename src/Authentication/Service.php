@@ -9,6 +9,11 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use Stickee\Auth\Exception\InvalidIdTokenException;
 use UnexpectedValueException;
 
+/**
+ * Class Service
+ *
+ * @package Stickee\Auth\Authentication
+ */
 class Service
 {
     const ALLOWED_ALGS = ['RS256'];
