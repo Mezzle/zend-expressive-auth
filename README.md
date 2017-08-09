@@ -1,3 +1,3 @@
-# Zend Expressive Google Authentication
+# Zend Expressive Authentication
 
-Authentication for Logging in with Google to an expressive application
+Authentication for Logging in with to an expressive application
