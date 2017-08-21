@@ -39,12 +39,12 @@ class ConfigProvider
             'factories' => [
                 Authentication\Middleware::class => Authentication\MiddlewareFactory::class,
                 Authentication\Service::class => Authentication\ServiceFactory::class,
-                Oauth\Keys::class => Oauth\Keys::class,
-                Oauth\Provider::class => Oauth\Provider::class,
+                Oauth\Keys::class => Oauth\KeysFactory::class,
                 Oauth\RedirectAction::class => Oauth\RedirectActionFactory::class,
             ],
             'invokables' => [
                 Authentication\JWTProxy::class => Authentication\JWTProxy::class,
+                Oauth\Provider::class => Oauth\Provider::class,
             ],
         ];
     }
