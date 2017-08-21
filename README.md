@@ -1,5 +1,7 @@
 # Zend Expressive Authentication
 
+[![Build Status](https://travis-ci.org/stickeeuk/zend-expressive-auth.svg?branch=master)](https://travis-ci.org/stickeeuk/zend-expressive-auth)
+
 Authentication for Logging in with to an expressive application
 
 
