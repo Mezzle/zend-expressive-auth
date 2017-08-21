@@ -27,7 +27,7 @@ class MiddlewareTest extends TestCase
     use MockeryTrait;
 
     /**
-     * @var Service|\Mockery\Mock $authentication_service
+     * @var Service|\Mockery\Mock|\Mockery\MockInterface $authentication_service
      */
     private $authentication_service;
 

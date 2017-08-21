@@ -59,7 +59,7 @@ class Middleware implements MiddlewareInterface
         $id_token = $segment->get('id_token');
 
         if (!$id_token) {
-            $id_token = FigRequestCookies::get($request, 'jwt', false)->getValue();
+            $id_token = FigRequestCookies::get($request, 'jwt', null)->getValue();
         }
 
         if (!$id_token || !$this->authentication_service->idTokenIsValid($id_token)) {

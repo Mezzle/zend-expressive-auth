@@ -71,7 +71,9 @@ parameters:
           blacklist:
             - 'var_dump'
         no_exit_statements: ~
-    phpstan: ~
+    phpstan:
+      level: 7
+      configuration: phpstan.neon
     phpunit: ~
     phpversion:
       project: '5.6'
