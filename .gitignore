@@ -15,3 +15,5 @@ config/.env
 data/*
 !data/.gitkeep
 composer.lock
+.php_cs.cache
+.phpunit.result.cache

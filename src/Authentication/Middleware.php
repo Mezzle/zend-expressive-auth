@@ -1,35 +1,55 @@
 <?php
 /**
- * @copyright (c) 2006-2017 Stickee Technology Limited
+ * Copyright (c) 2017 Stickee Technology Limited
+ * Copyright (c) 2017 - 2019 Martin Meredith <martin@sourceguru.net>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-namespace Stickee\Auth\Authentication;
+namespace Mez\Auth\Authentication;
 
 use DaMess\Http\SessionMiddleware;
 use Dflydev\FigCookies\FigRequestCookies;
 use Dflydev\FigCookies\FigResponseCookies;
 use Dflydev\FigCookies\SetCookie;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\RedirectResponse;
 
 /**
  * Class Middleware
  *
- * @package Stickee\Auth\Authentication
+ * @package Mez\Auth\Authentication
  */
 class Middleware implements MiddlewareInterface
 {
     /**
-     * @var \Stickee\Auth\Authentication\Service $authentication_service
+     * @var \Mez\Auth\Authentication\Service $authentication_service
      */
     private $authentication_service;
 
     /**
      * Middleware constructor.
      *
-     * @param \Stickee\Auth\Authentication\Service $authentication_service
+     * @param \Mez\Auth\Authentication\Service $authentication_service
      */
     public function __construct(Service $authentication_service)
     {
@@ -40,16 +60,16 @@ class Middleware implements MiddlewareInterface
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param ServerRequestInterface $request
-     * @param DelegateInterface $delegate
-     *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Server\RequestHandlerInterface $handler
      *
      * @throws \ErrorException
      *
+     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /** @var \Aura\Session\Session $session */
         $session = $request->getAttribute(SessionMiddleware::KEY);
@@ -70,7 +90,7 @@ class Middleware implements MiddlewareInterface
             return new RedirectResponse($url);
         }
 
-        $response = $delegate->process($request);
+        $response = $handler->handle($request);
 
         return FigResponseCookies::set(
             $response,

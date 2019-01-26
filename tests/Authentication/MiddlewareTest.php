@@ -1,24 +1,43 @@
 <?php
 /**
- * @copyright (c) 2006-2017 Stickee Technology Limited
+ * Copyright (c) 2017 Stickee Technology Limited
+ * Copyright (c) 2017 - 2019 Martin Meredith <martin@sourceguru.net>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-namespace Stickee\AuthTest\Authentication;
+namespace Mez\AuthTest\Authentication;
 
 use Aura\Session\Segment;
 use Aura\Session\Session;
 use DaMess\Http\SessionMiddleware;
 use Dflydev\FigCookies\Cookies;
 use Dflydev\FigCookies\SetCookies;
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Mez\Auth\Authentication\Middleware;
+use Mez\Auth\Authentication\Service;
+use Mez\AuthTest\FakeJWTTrait;
+use Mez\AuthTest\MockeryTrait;
 use Mockery as M;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Stickee\Auth\Authentication\Middleware;
-use Stickee\Auth\Authentication\Service;
-use Stickee\AuthTest\FakeJWTTrait;
-use Stickee\AuthTest\MockeryTrait;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\RedirectResponse;
 
 class MiddlewareTest extends TestCase
@@ -44,7 +63,7 @@ class MiddlewareTest extends TestCase
     /**
      * setUp
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = \Faker\Factory::create();
         $this->authentication_service = M::mock(Service::class);
@@ -56,8 +75,8 @@ class MiddlewareTest extends TestCase
         /** @var ServerRequestInterface|\Mockery\Mock $request */
         $request = M::mock(ServerRequestInterface::class);
 
-        /** @var DelegateInterface|\Mockery\Mock $delegate */
-        $delegate = M::mock(DelegateInterface::class);
+        /** @var \Psr\Http\Server\RequestHandlerInterface|\Mockery\Mock $handler */
+        $handler = M::mock(RequestHandlerInterface::class);
 
         /** @var Session|\Mockery\Mock $session */
         $session = M::mock(Session::class);
@@ -82,9 +101,9 @@ class MiddlewareTest extends TestCase
             ->with(SetCookies::SET_COOKIE_HEADER, M::type('string'))
             ->andReturnSelf();
 
-        $delegate->shouldReceive('process')->once()->with($request)->andReturn($response);
+        $handler->shouldReceive('handle')->once()->with($request)->andReturn($response);
 
-        $this->middleware->process($request, $delegate);
+        $this->middleware->process($request, $handler);
     }
 
     public function testProcessNoToken()
@@ -92,8 +111,8 @@ class MiddlewareTest extends TestCase
         /** @var ServerRequestInterface|\Mockery\Mock $request */
         $request = M::mock(ServerRequestInterface::class);
 
-        /** @var DelegateInterface|\Mockery\Mock $delegate */
-        $delegate = M::mock(DelegateInterface::class);
+        /** @var \Psr\Http\Server\RequestHandlerInterface|\Mockery\Mock $handler */
+        $handler = M::mock(RequestHandlerInterface::class);
 
         /** @var Session|\Mockery\Mock $session */
         $session = M::mock(Session::class);
@@ -106,7 +125,7 @@ class MiddlewareTest extends TestCase
 
         $segment->shouldReceive('get')->once()->with('id_token')->andReturn(false);
 
-        $request->shouldReceive('getHeaderLine')->once()->with(Cookies::COOKIE_HEADER)->andReturnNull();
+        $request->shouldReceive('getHeaderLine')->once()->with(Cookies::COOKIE_HEADER)->andReturn('');
 
         $url = $this->faker->url;
 
@@ -116,7 +135,7 @@ class MiddlewareTest extends TestCase
         $this->authentication_service->shouldReceive('getState')->once()->andReturn($state);
         $segment->shouldReceive('set')->once()->with('state', $state);
 
-        $response = $this->middleware->process($request, $delegate);
+        $response = $this->middleware->process($request, $handler);
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
 

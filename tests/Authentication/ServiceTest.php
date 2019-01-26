@@ -1,20 +1,39 @@
 <?php
 /**
- * @copyright (c) 2006-2017 Stickee Technology Limited
+ * Copyright (c) 2017 Stickee Technology Limited
+ * Copyright (c) 2017 - 2019 Martin Meredith <martin@sourceguru.net>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-namespace Stickee\AuthTest\Authentication;
+namespace Mez\AuthTest\Authentication;
 
 use Firebase\JWT\ExpiredException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
+use Mez\Auth\Authentication\JWTProxy;
+use Mez\Auth\Authentication\Service;
+use Mez\Auth\Exception\InvalidIdTokenException;
+use Mez\AuthTest\FakeJWTTrait;
+use Mez\AuthTest\MockeryTrait;
 use Mockery as M;
 use PHPUnit\Framework\TestCase;
-use Stickee\Auth\Authentication\JWTProxy;
-use Stickee\Auth\Authentication\Service;
-use Stickee\Auth\Exception\InvalidIdTokenException;
-use Stickee\AuthTest\FakeJWTTrait;
-use Stickee\AuthTest\MockeryTrait;
 
 class ServiceTest extends TestCase
 {
@@ -41,7 +60,7 @@ class ServiceTest extends TestCase
      */
     private $serviceconfig;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = \Faker\Factory::create();
 
@@ -81,7 +100,7 @@ class ServiceTest extends TestCase
             ]
         );
 
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $this->jwt->shouldReceive('decode')->once()
             ->with($fake_jwt, $fake_keys, Service::ALLOWED_ALGS)
@@ -94,14 +113,14 @@ class ServiceTest extends TestCase
 
     public function testInvalidToken()
     {
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $this->expectException(InvalidIdTokenException::class);
 
         $fake_jwt_body = [
             'hd' => $this->serviceconfig['domain'],
             'aud' => $this->serviceconfig['credentials']['key'],
-            'exp' => time() - (24 * 60 * 60),
+            'exp' => \time() - (24 * 60 * 60),
         ];
 
         $fake_jwt = $this->generateFakeJWT($fake_jwt_body);
@@ -117,12 +136,12 @@ class ServiceTest extends TestCase
 
     public function testInvalidTokenIsInvalid()
     {
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $fake_jwt_body = [
             'hd' => $this->serviceconfig['domain'],
             'aud' => $this->serviceconfig['credentials']['key'],
-            'exp' => time() - (24 * 60 * 60),
+            'exp' => \time() - (24 * 60 * 60),
         ];
 
         $fake_jwt = $this->generateFakeJWT($fake_jwt_body);
@@ -138,7 +157,7 @@ class ServiceTest extends TestCase
 
     public function testValidToken()
     {
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $fake_jwt_body = [
             'hd' => $this->serviceconfig['domain'],
@@ -158,7 +177,7 @@ class ServiceTest extends TestCase
 
     public function testValidTokenIsValid()
     {
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $fake_jwt_body = [
             'hd' => $this->serviceconfig['domain'],
@@ -178,7 +197,7 @@ class ServiceTest extends TestCase
 
     public function testValidTokenInvalidDomain()
     {
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $fake_jwt_body = [
             'hd' => $this->faker->domainName,
@@ -201,7 +220,7 @@ class ServiceTest extends TestCase
 
     public function testValidTokenInvalidAudience()
     {
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $fake_jwt_body = [
             'hd' => $this->serviceconfig['domain'],
@@ -235,7 +254,7 @@ class ServiceTest extends TestCase
 
         $url = $this->faker->url;
 
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $service = new Service($this->jwt, $this->provider_mock, $fake_keys);
 
@@ -248,7 +267,7 @@ class ServiceTest extends TestCase
     {
         $str = $this->faker->randomAscii;
 
-        $fake_keys = [sha1($this->private_key) => $this->public_key];
+        $fake_keys = [\sha1($this->private_key) => $this->public_key];
 
         $service = new Service($this->jwt, $this->provider_mock, $fake_keys);
 

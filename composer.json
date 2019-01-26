@@ -6,49 +6,53 @@
     "authors": [
         {
             "name": "Martin Meredith",
-            "email": "martin.meredith@stickee.co.uk"
+            "email": "martin@sourceguru.net"
         }
     ],
     "require": {
+        "php": "^7.1",
+        "ext-json": "*",
         "damess/expressive-session-middleware": "^1.0",
-        "dflydev/fig-cookies": "^1.0",
+        "dflydev/fig-cookies": "^2.0",
         "firebase/php-jwt": "^5.0",
-        "league/oauth2-client": "^2.0",
-        "zendframework/zend-diactoros": "^1.4@dev",
-        "zendframework/zend-expressive-helpers": "^4.0@dev"
+        "league/oauth2-client": "^2.4",
+        "psr/http-server-middleware": "^1.0",
+        "zendframework/zend-diactoros": "^2.1",
+        "zendframework/zend-expressive-helpers": "^5.1"
     },
     "config": {
         "sort-packages": true,
         "optimize-autoloader": true,
         "preferred-install": {
-            "stickee/*": "source",
             "*": "dist"
         }
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~1",
+        "friendsofphp/php-cs-fixer": "^2.15@dev",
         "fzaninotto/faker": "^1.6",
-        "jakub-onderka/php-parallel-lint": "^0.9.2",
+        "jakub-onderka/php-parallel-lint": "dev-master",
         "mockery/mockery": "^0.9.9",
-        "nikic/php-parser": "^3.1",
-        "php": "^7.1",
-        "phpmd/phpmd": "^2.6",
-        "phpro/grumphp": "^0.11.6",
-        "phpstan/phpstan": "^0.8.0",
-        "phpunit/phpunit": "^6.0.8 || ^5.7.15",
-        "povils/phpmnd": "^1.1",
-        "sebastian/phpcpd": "^3.0",
-        "sensiolabs/security-checker": "^4.0",
-        "squizlabs/php_codesniffer": "^2.8.1"
+        "nikic/php-parser": "^4.2@dev",
+        "phpmd/phpmd": "dev-master",
+        "phpro/grumphp": "dev-master",
+        "phpstan/phpstan": "^0.11.0@dev",
+        "phpunit/phpunit": "^8.0@dev",
+        "povils/phpmnd": "^2.0@dev",
+        "sebastian/phpcpd": "^4.0@dev",
+        "sensiolabs/security-checker": "^5.0@dev"
     },
     "autoload": {
         "psr-4": {
-            "Stickee\\Auth\\": "src/"
+            "Mez\\Auth\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Stickee\\AuthTest\\": "tests/"
+            "Mez\\AuthTest\\": "tests/"
         }
+    },
+    "scripts": {
+        "cs-fix": "php-cs-fixer --allow-risky=yes --config=.php_cs --verbose fix",
+        "cs-check": "php-cs-fixer --allow-risky=yes --config=.php_cs --verbose --dry-run fix"
     }
 }
