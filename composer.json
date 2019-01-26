@@ -1,5 +1,5 @@
 {
-    "name": "stickee/zend-expressive-auth",
+    "name": "mez/zend-expressive-auth",
     "description": "Authentication with Google",
     "minimum-stability": "dev",
     "license": "MIT",
