@@ -31,7 +31,7 @@
         "friendsofphp/php-cs-fixer": "^2.15@dev",
         "fzaninotto/faker": "^1.6",
         "jakub-onderka/php-parallel-lint": "dev-master",
-        "mockery/mockery": "^0.9.9",
+        "mockery/mockery": "^1.2.2",
         "nikic/php-parser": "^4.2@dev",
         "phpmd/phpmd": "dev-master",
         "phpro/grumphp": "dev-master",
