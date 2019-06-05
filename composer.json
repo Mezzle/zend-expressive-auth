@@ -39,7 +39,7 @@
         "phpunit/phpunit": "^8.0@dev",
         "povils/phpmnd": "^2.0@dev",
         "sebastian/phpcpd": "^4.0@dev",
-        "sensiolabs/security-checker": "^5.0@dev"
+        "sensiolabs/security-checker": "^6.0@dev"
     },
     "autoload": {
         "psr-4": {
