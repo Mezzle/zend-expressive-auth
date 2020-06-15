@@ -35,7 +35,7 @@
         "nikic/php-parser": "^4.2@dev",
         "phpmd/phpmd": "dev-master",
         "phpro/grumphp": "dev-master",
-        "phpstan/phpstan": "^0.11.0@dev",
+        "phpstan/phpstan": "^0.12.29@dev",
         "phpunit/phpunit": "^8.0@dev",
         "povils/phpmnd": "^2.0@dev",
         "sebastian/phpcpd": "^4.0@dev",
