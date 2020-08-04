@@ -38,7 +38,7 @@
         "phpstan/phpstan": "^0.12.30@dev",
         "phpunit/phpunit": "^8.0@dev",
         "povils/phpmnd": "^2.0@dev",
-        "sebastian/phpcpd": "^4.0@dev",
+        "sebastian/phpcpd": "^5.0@dev",
         "sensiolabs/security-checker": "^6.0@dev"
     },
     "autoload": {
