@@ -13,7 +13,7 @@
         "php": "^7.1",
         "ext-json": "*",
         "damess/expressive-session-middleware": "^1.0",
-        "dflydev/fig-cookies": "^2.0",
+        "dflydev/fig-cookies": "^3.0",
         "firebase/php-jwt": "^5.0",
         "league/oauth2-client": "^2.4",
         "psr/http-server-middleware": "^1.0",
