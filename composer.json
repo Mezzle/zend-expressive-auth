@@ -28,7 +28,7 @@
         }
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.15@dev",
+        "friendsofphp/php-cs-fixer": "^3.0@dev",
         "fzaninotto/faker": "^1.6",
         "jakub-onderka/php-parallel-lint": "dev-master",
         "mockery/mockery": "^1.2.2",
